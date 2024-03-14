@@ -1,0 +1,94 @@
+class Stock {
+
+    constructor() {
+        this.stockItems = []
+    }
+
+    findItemIndex(id) {
+        return this.stockItems.findIndex((stockItem) => {
+            return stockItem.itemId === id
+        })
+    }
+
+    //!! WARNING 
+    addItem(id, amount) {
+        if (id === null || id === undefined || amount === null || amount === undefined) return -1
+
+        const itemIndex = this.findItemIndex(id)
+        // if (this.findItemIndex(id) > -1) return this.quantity += amount //!! WRONG !!
+        if (itemIndex > -1) this.stockItems[itemIndex].quantity += amount
+        else this.stockItems.push({ itemId: id, quantity: amount })
+        return amount
+        // console.log(this.stockItems[0].quantity);
+        // console.log(this.stockItems[itemIndex]);
+
+        //* const itemIndex = this.findItemIndex(id)
+        //* if (itemIndex > -1) return this.stockItems[itemIndex].quantity += amount, amount
+        //* return this.stockItems.push({ itemId: id, quantity: amount })
+
+    }
+
+    //!! WARNING
+    addItems(items) {
+        let addedCount = 0
+        items.forEach(item => {
+            if (this.addItem(item.itemId, item.quantity) > -1) addedCount++
+        })
+        return addedCount
+    }
+
+    sell(id, amount) {
+        const itemIndex = this.findItemIndex(id)
+        if (itemIndex > -1) {
+            this.stockItems[itemIndex].quantity -= amount
+            return amount
+        } else return -1
+    }
+
+    getAllStockAmount() {
+        return this.stockItems
+    }
+
+}
+
+const stock = new Stock()
+console.log(stock.addItem(1, 5));
+console.log(stock);
+console.log(stock.addItem(1, 5));
+console.log(stock.addItem(1, 1));
+console.log(stock);
+
+
+console.log('find id');
+console.log(stock.findItemIndex(1));
+console.log(stock.findItemIndex(0));
+
+console.log('check add error');
+console.log(stock.addItem());
+console.log(stock.addItem(null, null));
+console.log(stock.addItem(0, 4));
+console.log(stock.addItem(0, 6));
+console.log(stock.addItem(1, 5));
+console.log(stock.addItem(3, 4));
+console.log(stock.addItem(3, 1));
+console.log(stock);
+
+console.log('addItems test');
+console.log(stock.addItems([{ itemId: 3, quantity: 1 }, { itemId: 4, quantity: 2 }]));
+console.log(stock);
+console.log(stock.addItems([{ itemId: 3, quantity: 1 }, { itemId: 8, quantity: 1 }]));
+console.log(stock);
+console.log(stock.addItems([{ itemId: 3, quantity: 0 }, { itemId: 8, quantity: 1 }]));
+console.log(stock);
+console.log(stock.addItems([{ itemId: 10, quantity: 10 }, { itemId: 8, quantity: 1 }, { quantity: 1 }, { itemId: 8 }, {}, { itemId: null, quantity: 1 }, { itemId: 110, quantity: 10 }]));
+console.log(stock);
+
+console.log('sell test');
+console.log(stock.sell(8, 2));
+console.log(stock.sell(10, 5));
+console.log(stock.sell(108, 5));
+console.log(stock);
+
+console.log('All stock');
+console.log(stock.getAllStockAmount());
+

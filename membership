@@ -1,0 +1,80 @@
+class Membership {
+    static autoId = 1
+
+    constructor() {
+        this.members = []
+    }
+
+    //*PASS
+    findMemberId(id) {
+        return this.members.findIndex((member) => {
+            return member.memberId === id
+        })
+    }
+
+    //*PASS
+    findMemberName(name) {
+        if (name === null || name === undefined) return -1
+        else return this.members.findIndex((member) => {
+            return member.memberName.toLowerCase() === name.toLowerCase()
+        })
+    }
+
+    //!! WARNING
+    subscribe(name) {
+        if (this.findMemberName(name) > -1 || name === null || name === undefined) return -1
+        return this.members.push({ memberId: Membership.autoId++, memberName: name })
+    }
+
+    unsubscribe(id) {
+        if (this.findMemberId(id) > -1) {
+            return this.members.splice(id - 1, 1)
+        }
+        return -1
+    }
+
+
+}
+
+const membership1 = new Membership()
+const membership2 = new Membership()
+
+console.log(membership1)
+console.log(membership2)
+
+console.log(membership1.subscribe('Sirakarn'))
+console.log(membership1);
+console.log(membership1.subscribe('Saksit'))
+
+console.log('find member ID');
+console.log(membership1);
+console.log(membership1.findMemberId(1));
+console.log(membership1.findMemberId(2));
+console.log(membership1.findMemberId(13));
+
+console.log('find index of member name');
+console.log(membership1);
+console.log(membership1.findMemberName('SaKsIt'));
+console.log(membership1.findMemberName('SiRakarn'));
+console.log(membership1.findMemberName('SaKsItchan'));
+
+console.log('return member length (+check member)');
+console.log(membership1.subscribe('mink'));
+console.log(membership1.subscribe('sirakarn'));
+console.log(membership1.subscribe('ploy'));
+console.log(membership1.subscribe('saksiT'));
+console.log(membership1);
+console.log('check error');
+console.log(membership1.subscribe());
+console.log(membership1.subscribe(null));
+console.log(membership1.subscribe(undefined));
+console.log(membership1);
+
+
+
+console.log('return unsubscribe');
+console.log(membership1.unsubscribe(2));
+console.log(membership1);
+console.log(membership1.unsubscribe());
+console.log(membership1.unsubscribe(null));
+console.log(membership1.unsubscribe(undefined));
